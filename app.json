@@ -19,18 +19,15 @@
       "adaptiveIcon": {
         "foregroundImage": "",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "usesCleartextTraffic": true
     },
     "web": {
       "bundler": "metro",
       "output": "static",
       "favicon": ""
     },
-    "plugins": [
-      "expo-router",
-      "expo-font",
-      "expo-camera"
-    ],
+    "plugins": ["expo-router", "expo-font", "expo-camera"],
     "experiments": {
       "typedRoutes": true
     }

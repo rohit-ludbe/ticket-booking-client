@@ -1,25 +1,33 @@
-import { Button } from '@/components/Button';
-import { Text } from '@/components/Text';
-import { VStack } from '@/components/VStack';
-import { ticketService } from '@/services/ticket';
-import { BarcodeScanningResult, CameraView, useCameraPermissions } from 'expo-camera';
-import { useState } from 'react';
-import { ActivityIndicator, Alert, Vibration } from 'react-native';
+import { Button } from "@/components/Button";
+import { Text } from "@/components/Text";
+import { VStack } from "@/components/VStack";
+import { ticketService } from "@/services/ticket";
+import {
+  BarcodeScanningResult,
+  CameraView,
+  useCameraPermissions,
+} from "expo-camera";
+import { useState } from "react";
+import { ActivityIndicator, Alert, Vibration } from "react-native";
 
 export default function ScanTicketScreen() {
   const [permission, requestPermission] = useCameraPermissions();
   const [scanningEnabled, setScanningEnabled] = useState(true);
 
   if (!permission) {
-    return <VStack flex={1} justifyContent='center' alignItems='center'>
-      <ActivityIndicator size={"large"} />
-    </VStack>;
+    return (
+      <VStack flex={1} justifyContent="center" alignItems="center">
+        <ActivityIndicator size={"large"} />
+      </VStack>
+    );
   }
 
   if (!permission.granted) {
     return (
-      <VStack gap={20} flex={1} justifyContent='center' alignItems='center'>
-        <Text>Camera access is required to scan tickets.</Text>
+      <VStack gap={20} flex={1} justifyContent="center" alignItems="center">
+        <Text style={{ fontSize: 14 }}>
+          Camera access is required to scan tickets.
+        </Text>
         <Button onPress={requestPermission}>Allow Camera Access</Button>
       </VStack>
     );
@@ -38,12 +46,11 @@ export default function ScanTicketScreen() {
 
       await ticketService.validateOne(ticketId, ownerId);
 
-      Alert.alert('Success', "Ticket validated successfully.", [
-        { text: 'Ok', onPress: () => setScanningEnabled(true) },
+      Alert.alert("Success", "Ticket validated successfully.", [
+        { text: "Ok", onPress: () => setScanningEnabled(true) },
       ]);
-
     } catch (error) {
-      Alert.alert('Error', "Failed to validate ticket. Please try again.");
+      Alert.alert("Error", "Failed to validate ticket. Please try again.");
       setScanningEnabled(true);
     }
   }

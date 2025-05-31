@@ -1,9 +1,16 @@
-import React from 'react';
-import { ActivityIndicator, Platform, StyleSheet, Text, TouchableOpacity, TouchableOpacityProps } from 'react-native';
-import { ShortcutProps, defaultShortcuts } from '@/styles/shortcuts';
+import React from "react";
+import {
+  ActivityIndicator,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TouchableOpacityProps,
+} from "react-native";
+import { ShortcutProps, defaultShortcuts } from "@/styles/shortcuts";
 
 interface ButtonProps extends ShortcutProps, TouchableOpacityProps {
-  variant?: 'contained' | 'outlined' | 'ghost';
+  variant?: "contained" | "outlined" | "ghost";
   isLoading?: boolean;
 }
 
@@ -22,14 +29,14 @@ export const Button = ({
         defaultShortcuts(restProps),
         styles[variant].button,
         isLoading && disabled.button,
-
       ]}
       {...restProps}
     >
-      {isLoading ?
-        <ActivityIndicator animating={isLoading} size={22} /> :
+      {isLoading ? (
+        <ActivityIndicator animating={isLoading} size={22} />
+      ) : (
         <Text style={styles[variant].text}>{children}</Text>
-      }
+      )}
     </TouchableOpacity>
   );
 };
@@ -37,45 +44,45 @@ export const Button = ({
 const styles = {
   contained: StyleSheet.create({
     button: {
-      padding: 14,
-      borderRadius: 10,
-      backgroundColor: 'black',
+      padding: 12,
+      borderRadius: 8,
+      backgroundColor: "#328e6e",
+      fontSize: 14,
     },
     text: {
-      textAlign: 'center',
-      color: 'white',
-      fontSize: 18,
+      textAlign: "center",
+      color: "white",
+      fontSize: 14,
       fontFamily: "inter",
-      fontWeight: "semibold"
+      fontWeight: "600",
     },
   }),
   outlined: StyleSheet.create({
     button: {
-      padding: 14,
-      borderRadius: 10,
-      borderColor: 'darkgray',
-      borderWidth: 2,
+      padding: 8,
+      borderRadius: 8,
+      borderColor: "darkgray",
+      borderWidth: 1,
     },
     text: {
-      textAlign: 'center',
-      color: 'black',
-      fontSize: 18,
+      textAlign: "center",
+      fontSize: 14,
       fontFamily: "inter",
-      fontWeight: "semibold"
+      fontWeight: "600",
     },
   }),
   ghost: StyleSheet.create({
     button: {
-      padding: 14,
+      padding: 12,
       borderRadius: 10,
-      backgroundColor: 'transparent',
+      backgroundColor: "transparent",
     },
     text: {
-      textAlign: 'center',
-      color: 'black',
+      textAlign: "center",
+      color: "black",
       fontSize: 18,
       fontFamily: "inter",
-      fontWeight: "semibold"
+      fontWeight: "semibold",
     },
   }),
 };

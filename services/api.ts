@@ -9,11 +9,10 @@ import axios, {
 } from "axios";
 import { Platform } from "react-native";
 
-
-const url = Platform.OS == "android" ? "https://1f56-2405-201-e-b0b7-5c82-d9fd-b259-2cb1.ngrok-free.app" : "http://127.0.0.1:3001"
+const url = "https://eventpass.rohitludbe.com/api/v1";
 
 const Request = axios.create({
-  baseURL: url + "/api/v1",
+  baseURL: url,
   headers: {
     "Content-Type": "application/json",
   },
@@ -36,13 +35,14 @@ const serializeError = <T>(error: AxiosError<T>): IError => {
   return se;
 };
 
-const responseInterceptor = async (response: AxiosResponse<unknown, unknown>) => {
+const responseInterceptor = async (
+  response: AxiosResponse<unknown, unknown>
+) => {
   const { headers } = response;
 
   if (headers["authorization"]) {
     // set authorization
-    await AsyncStorage.setItem("auth", headers["authorization"])
-
+    await AsyncStorage.setItem("auth", headers["authorization"] || "");
   }
 
   console.log("responseInterceptor", headers);
@@ -52,8 +52,10 @@ const responseInterceptor = async (response: AxiosResponse<unknown, unknown>) =>
 const requestInterceptor = async (
   config: InternalAxiosRequestConfig
 ): Promise<InternalAxiosRequestConfig> => {
-  const auth = await AsyncStorage.getItem("auth")
-  config.headers.Authorization = `Bearer ${auth}`;
+  if (!config.url?.includes("auth")) {
+    const auth = await AsyncStorage.getItem("auth");
+    config.headers.Authorization = `Bearer ${auth}`;
+  }
   return config;
 };
 
